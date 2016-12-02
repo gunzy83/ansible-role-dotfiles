@@ -24,12 +24,12 @@
   include: install.yml
   with_items: "{{ dotfiles }}"
 
-# - name: Set previous dotfiles variable
-#   set_fact:
-#     dotfiles_previous_var:
-#       dotfiles_previous: "{{ dotfiles }}"
+- name: Set previous dotfiles variable
+  set_fact:
+    dotfiles_previous_var:
+      dotfiles_previous: "{{ dotfiles }}"
 
-# - name: Install history file for next run
-#   copy:
-#     content: "{{ dotfiles_previous_var | to_nice_yaml }}"
-#     dest: "{{ dotfiles_previous_file }}"
+- name: Install history file for next run
+  copy:
+    content: "{{ dotfiles_previous_var | to_nice_yaml }}"
+    dest: "{{ dotfiles_previous_file }}"

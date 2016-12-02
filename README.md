@@ -1,31 +1,96 @@
-Role Name
-=========
+Ansible Role: dotfiles
+======================
 
-A brief description of the role goes here.
+Installs dotfiles by symlinking them from another directory (usually a git repository).
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+A directory or git repository containing your dotfiles and an inventory file in YAML format is required. The file should follow the following data structure:
+
+```yaml
+---
+dotfiles:
+  - src: "zsh/zshrc"
+    dest: "~/.zshrc"
+    mode: "0644"
+    post_command: "zgen update && source ~/.zshrc"
+```
+
+The `post_command` mapping is optional for each file and is run in a handler after the rest of the run is complete.
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+Available variables are listed below along with default values (see `defaults/main.yml'):
+
+```yaml
+dotfiles: []
+```
+
+List of files to deploy/link. This defaults to an empty list but should be included in the inventory file as per above.
+
+```yaml
+dotfiles_inventory_file: inventory.yml
+```
+
+Inventory file name.
+
+```yaml
+dotfiles_directory: "{{ playbook_dir }}"
+```
+
+Directory where dotfiles exist. Defaults to the `playbook_dir` variable.
+
+```yaml
+dotfiles_inventory: "{{ dotfiles_directory }}/{{ dotfiles_inventory_file }}"
+```
+
+Location of the inventory file. Defaults to a combination of the `dotfiles_directory` and `dotfiles_inventory_file` variables.
+
+```yaml
+dotfiles_history_file: "{{ dotfiles_directory }}/.history.yml"
+```
+
+Location of the history file that is stored between runs (allows for files to be removed from the inventory).
+
+```yaml
+dotfiles_previous: []
+```
+
+Previously installed inventory entries. This defaults to empty and is populated by the history file.
+
+```yaml
+dotfiles_post_items: []
+```
+
+Post run commands to run. This defaults to empty and is populated as the role is run.
+
 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+No Galaxy dependencies are required for this role.
 
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+Assuming the role has been installed, to run this role from inside a dotfiles repository:
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+```yaml
+- hosts: localhost
+  roles:
+    - role: gunzy83.dotfiles
+```
+
+To run this with a dotfiles repository somewhere else:
+
+```yaml
+- hosts: localhost
+  roles:
+    - role: gunzy83.dotfiles
+      dotfiles_directory: /some/dotfiles/dir/
+```
 
 License
 -------
@@ -35,4 +100,4 @@ BSD
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+This role was created in 2016 by [Ross Williams](http://rosswilliams.id.au/).

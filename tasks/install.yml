@@ -5,10 +5,10 @@
     path: "{{ item.dest | dirname }}"
     state: directory
 
-- name: Link files
+- name: Ensure files are linked
   file:
     dest: "{{ item.dest }}"
-    src: "{{ dotfiles_path }}/{{ item.src }}"
+    src: "{{ dotfiles_directory }}/{{ item.src }}"
     state: link
     mode: "{{ item.mode | default(0644) }}"
     force: yes
@@ -16,10 +16,7 @@
   notify:
     - "Run post commands"
 
-- debug:
-    msg: "{{ dotfiles_register }}"
-
-# - name:
-#   set_facts:
-#     dotfiles_post_items: "{{ dotfiles_post_items }} + {{ dotfiles_register.results }}"
-#   when: dotfiles_register.results[0].changed
+- name: Add post_command to list of post items
+  set_facts:
+    dotfiles_post_items: "{{ dotfiles_post_items }} + [ '{{ item.post_command }}' ]"
+  when: dotfiles_register.changed and item.post_command is defined
