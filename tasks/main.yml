@@ -1,0 +1,35 @@
+---
+# tasks file for ansible-dotfiles
+- name: Get dotfiles directory and file list
+  include_vars: "{{ dotfiles_inventory }}"
+
+- name: Check if history file exists
+  stat:
+    path: "{{ dotfiles_history_file }}"
+  register: dotfiles_history_stat
+
+- block:
+  - name: Import history file
+    include_vars: "{{ dotfiles_previous_file }}"
+
+  - name: Remove redundant files
+    file:
+      path: "{{ item.dest }}"
+      state: absent
+    with_items: "{{ dotfiles_previous }}"
+    when: "item not in dotfiles"
+  when: dotfiles_previous_stat.stat.exists is defined and dotfiles_previous_stat.stat.exists
+
+- name: Install the dotfiles
+  include: install.yml
+  with_items: "{{ dotfiles }}"
+
+# - name: Set previous dotfiles variable
+#   set_fact:
+#     dotfiles_previous_var:
+#       dotfiles_previous: "{{ dotfiles }}"
+
+# - name: Install history file for next run
+#   copy:
+#     content: "{{ dotfiles_previous_var | to_nice_yaml }}"
+#     dest: "{{ dotfiles_previous_file }}"

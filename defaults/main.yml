@@ -1,0 +1,7 @@
+---
+# defaults file for ansible-dotfiles
+dotfiles_inventory_file: inventory.yml
+dotfiles_inventory: "{{ playbook_dir }}/{{ dotfiles_inventory_file }}"
+dotfiles_history_file: "{{ playbook_dir }}/.history.yml"
+dotfiles_previous: []
+dotfiles_post_items: []

@@ -1,0 +1,25 @@
+---
+# Install the dotfiles symlinks and their parent directories one by one
+- name: Ensure directory is present
+  file:
+    path: "{{ item.dest | dirname }}"
+    state: directory
+
+- name: Link files
+  file:
+    dest: "{{ item.dest }}"
+    src: "{{ dotfiles_path }}/{{ item.src }}"
+    state: link
+    mode: "{{ item.mode | default(0644) }}"
+    force: yes
+  register: dotfiles_register
+  notify:
+    - "Run post commands"
+
+- debug:
+    msg: "{{ dotfiles_register }}"
+
+# - name:
+#   set_facts:
+#     dotfiles_post_items: "{{ dotfiles_post_items }} + {{ dotfiles_register.results }}"
+#   when: dotfiles_register.results[0].changed
