@@ -10,7 +10,7 @@
 
 - block:
   - name: Import history file
-    include_vars: "{{ dotfiles_previous_file }}"
+    include_vars: "{{ dotfiles_history_file }}"
 
   - name: Remove redundant files
     file:
@@ -32,4 +32,4 @@
 - name: Install history file for next run
   copy:
     content: "{{ dotfiles_previous_var | to_nice_yaml }}"
-    dest: "{{ dotfiles_previous_file }}"
+    dest: "{{ dotfiles_history_file }}"
