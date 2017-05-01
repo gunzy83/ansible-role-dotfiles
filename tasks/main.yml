@@ -18,7 +18,7 @@
       state: absent
     with_items: "{{ dotfiles_previous }}"
     when: "item not in dotfiles"
-  when: dotfiles_previous_stat.stat.exists is defined and dotfiles_previous_stat.stat.exists
+  when: dotfiles_history_stat.stat.exists is defined and dotfiles_history_stat.stat.exists
 
 - name: Install the dotfiles
   include: install.yml
@@ -31,5 +31,5 @@
 
 - name: Install history file for next run
   copy:
-    content: "{{ dotfiles_previous_var | to_nice_yaml }}"
+    content: "{{ dotfiles_previous_var | to_nice_json }}"
     dest: "{{ dotfiles_history_file }}"
