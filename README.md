@@ -9,15 +9,15 @@ Requirements
 A directory or git repository containing your dotfiles and an inventory file in YAML format is required. The file should follow the following data structure:
 
 ```yaml
----
-dotfiles:
-  - src: "zsh/zshrc"
-    dest: "~/.zshrc"
-    mode: "0644"
-    post_command: "zgen update && source ~/.zshrc"
+- src: "zsh/zshrc"
+  dest: "~/.zshrc"
+  mode: "0644"
+  post_command: "zgen update && source ~/.zshrc"
 ```
 
 The `post_command` mapping is optional for each file and is run in a handler after the rest of the run is complete.
+
+The `mode` mapping is also optional and is used for tools to restore files and directories to their original locations.
 
 Role Variables
 --------------

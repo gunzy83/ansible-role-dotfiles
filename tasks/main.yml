@@ -1,7 +1,8 @@
 ---
 # tasks file for ansible-dotfiles
-- name: Get dotfiles directory and file list
-  include_vars: "{{ dotfiles_inventory }}"
+- name: Get dotfiles variable
+  set_fact:
+    dotfiles: "{{ lookup('file', dotfiles_inventory) | from_yaml }}"
 
 - name: Check if history file exists
   stat:
