@@ -1,0 +1,11 @@
+---
+- src: "files/test1"
+  dest: "~/test1"
+  mode: "0644"
+- src: "files/test2"
+  dest: "~/test2"
+  mode: "0644"
+  post_command: "echo test3 > ~/test3"
+- src: "files/test_dir"
+  dest: "~/test_dir"
+  mode: "0644"

@@ -20,3 +20,5 @@
   set_fact:
     dotfiles_post_items: "{{ dotfiles_post_items }} + [ '{{ item.post_command }}' ]"
   when: dotfiles_register.changed and item.post_command is defined
+  tags:
+    - skip_ansible_lint

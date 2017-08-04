@@ -5,3 +5,5 @@
   args:
     chdir: "{{ dotfiles_directory }}"
   with_items: "{{ dotfiles_post_items }}"
+  tags:
+    - skip_ansible_lint
