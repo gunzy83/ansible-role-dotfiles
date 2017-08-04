@@ -8,29 +8,31 @@
   stat:
     path: "{{ dotfiles_history_file }}"
   register: dotfiles_history_stat
+  # required to pass tests in docker. Not required under normal operation
+  delegate_to: 127.0.0.1
 
 - block:
-  - name: Import history file
-    include_vars: "{{ dotfiles_history_file }}"
+    - name: Import history file
+      include_vars: "{{ dotfiles_history_file }}"
 
-  - name: Remove redundant files
-    file:
-      path: "{{ item.dest }}"
-      state: absent
-    with_items: "{{ dotfiles_previous }}"
-    when: "item not in dotfiles"
+    - name: Remove redundant files
+      file:
+        path: "{{ item.dest }}"
+        state: absent
+      with_items: "{{ dotfiles_previous }}"
+      when: "item not in dotfiles"
   when: dotfiles_history_stat.stat.exists is defined and dotfiles_history_stat.stat.exists
 
 - name: Install the dotfiles
   include: install.yml
   with_items: "{{ dotfiles }}"
 
-- name: Set previous dotfiles variable
-  set_fact:
-    dotfiles_previous_var:
-      dotfiles_previous: "{{ dotfiles }}"
-
 - name: Install history file for next run
   copy:
-    content: "{{ dotfiles_previous_var | to_nice_json }}"
+    content: |
+      ---
+      dotfiles_previous:
+        {{ dotfiles | to_yaml | indent(2) }}
     dest: "{{ dotfiles_history_file }}"
+  # required to pass tests in docker. Not required under normal operation
+  delegate_to: 127.0.0.1

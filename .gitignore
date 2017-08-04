@@ -1,0 +1,5 @@
+*.retry
+.python-version
+.molecule
+.history.yml
+./molecule/default/test_data

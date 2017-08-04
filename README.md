@@ -1,6 +1,10 @@
 Ansible Role: dotfiles
 ======================
 
+[![Build Status](https://img.shields.io/travis/gunzy83/ansible-role-dotfiles/master.svg?style=flat-square)](https://travis-ci.org/gunzy83/ansible-role-dotfiles)
+[![Ansible Galaxy](https://img.shields.io/badge/ansible--galaxy-dotfiles-blue.svg?style=flat-square)](https://galaxy.ansible.com/gunzy83/dotfiles/)
+[![License](https://img.shields.io/badge/License-BSD%202--Clause-brightgreen.svg?style=flat-square)](LICENSE)
+
 Installs dotfiles by symlinking them from another directory (usually a git repository).
 
 Requirements
@@ -95,7 +99,7 @@ To run this with a dotfiles repository somewhere else:
 License
 -------
 
-BSD
+BSD 2-Clause License
 
 Author Information
 ------------------
