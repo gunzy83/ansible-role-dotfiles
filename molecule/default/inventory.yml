@@ -8,4 +8,4 @@
   post_command: "echo test3 > ~/test3"
 - src: "files/test_dir"
   dest: "~/test_dir"
-  mode: "0644"
+  mode: "0755"

@@ -1,7 +1,7 @@
 ---
 # handlers file for ansible-dotfiles
 - name: Run post commands
-  shell: "{{ansible_user_shell}} -l -c '{{ item }}'"
+  shell: "{{ ansible_user_shell }} -l -c '{{ item }}'"
   args:
     chdir: "{{ dotfiles_directory }}"
   with_items: "{{ dotfiles_post_items }}"
